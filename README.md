@@ -5,7 +5,7 @@ Telimed Dapp
 - Telimed 
 
 ## Hackathon Track
-Defi
+Web3 integration on web2
 
 ## Region location
 Nigeria
@@ -42,6 +42,7 @@ List any links to your presentation or any related visuals you want to share.
 ## Requirements 
 
 ## Instructions to build & test 
+- Run `npm install` to install all required dependencies and then do `npm start` to run it locally on `localhost:3000`
 
 ## Next Steps
 What do you need to do next to turn this prototype into a working solution?

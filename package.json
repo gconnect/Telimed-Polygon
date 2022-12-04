@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@actions/core": "^1.9.1",
+    "@alch/alchemy-web3": "^1.4.7",
     "@celo/contractkit": "^2.3.0",
     "@celo/react-celo": "^4.2.1",
     "@testing-library/jest-dom": "^5.16.4",
