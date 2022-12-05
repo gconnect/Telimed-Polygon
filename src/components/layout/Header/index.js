@@ -1,13 +1,15 @@
+import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 import logo from '../../../assets/img/logo.png'
 import Button from 'react-bootstrap/Button';
 import { Header, OpenMenu } from './Header.styles'
-import { useCelo } from '@celo/react-celo';
+// import { connectWallet, getCurrentWalletConnected } from '../../../interact';
 
 const AppHeader = ({ appLinks }) => {
-  const { connect, address, disconnect } = useCelo();
-  const isConnected = !!address
+   const [address, setWallet] = useState("");
+  const [status, setStatus] = useState("");
+
   const location = useLocation()
   const navigate = useNavigate()
   
@@ -36,6 +38,14 @@ const AppHeader = ({ appLinks }) => {
     sidebar.style.width = '0'
   }
 
+  //   useEffect(async () => {
+  //   const { address, status } = await getCurrentWalletConnected();
+  // }, []);
+
+  const connectWallet = () => {
+    
+  }
+
   return (
     <Header className="app-mx">
       <Link to='/'>
@@ -53,9 +63,9 @@ const AppHeader = ({ appLinks }) => {
         {address ? (
         <Button>Connected to {`${address.substring(0, 5)}...${address.slice(-5)}`}</Button>
         ) : (
-              location.pathname === '/app' && <Button onClick={connect}>Connect wallet</Button> 
+              location.pathname === '/app' && <Button onClick={connectWallet}>Connect wallet</Button> 
         )}
-        {isConnected ? <Button variant='warning' onClick={disconnect}>Disconnect</Button> : null}
+        {/* {isConnected ? <Button variant='warning' onClick={disconnect}>Disconnect</Button> : null} */}
       </ul>
       <OpenMenu id="open-menu" onClick={openMenu}>
         <div className="bar1"></div>

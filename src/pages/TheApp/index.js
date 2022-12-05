@@ -9,7 +9,6 @@ import { StyleSheet, css } from 'aphrodite'
 import  { DOCTOR, PHARMACIST, INSURER } from "../../constants"
 import connectImage from "../../assets/img/connect.svg"
 import PaginatedItems from './PaginateItems'
-import { useCelo } from '@celo/react-celo';
 
 const styles = StyleSheet.create({
   btn: {
@@ -33,7 +32,7 @@ const TheApp = () => {
   // const address = localStorage.getItem("address")
   // console.log(accountAddress)
   const transactions = localStorage.getItem("transactions")
-   const { address } = useCelo();
+   const { address } = "";
 
   const doctor = DOCTOR
   const pharmacist = PHARMACIST

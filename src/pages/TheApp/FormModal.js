@@ -2,7 +2,6 @@ import React, {useRef, useState} from "react"
 import { Modal, Form, Button, Alert } from "react-bootstrap"
 import { StyleSheet, css } from 'aphrodite'
 import { DOCTOR, PHARMACIST, INSURER } from "../../constants"
-import { useCelo } from '@celo/react-celo';
 import Telemed from "../../telemed.json"
 
 
@@ -15,7 +14,7 @@ export default function FormModal(props){
   const [errorAddress, setErrorAddress] = useState("")
   const [amount, setAmount] = useState(0)
 
-  const { address, kit } = useCelo();
+  const { address, kit } = "";
 
 const styles = StyleSheet.create({
   error: {
@@ -39,12 +38,12 @@ const handleAmountChange = e =>{
 }
   
   const handleContractTransfer = async () => {
-    const telemedContract = new kit.connection.web3.eth.Contract(Telemed.abi, Telemed.address)
-    const txHash = await telemedContract.methods.sendMessage(walletAddress, message).send({
-      from: address,
-      gasLimit: '210000'
-    })
-    console.log(txHash)
+    // const telemedContract = new kit.connection.web3.eth.Contract(Telemed.abi, Telemed.address)
+    // const txHash = await telemedContract.methods.sendMessage(walletAddress, message).send({
+    //   from: address,
+    //   gasLimit: '210000'
+    // })
+    // console.log(txHash)
   }
 
   const handleTransfer = async () => {
@@ -63,13 +62,13 @@ const handleAmountChange = e =>{
     else if(message !=="" || walletAddress.length === 32){
       setErrorMessage("")
       setErrorAddress("")
-      if (address === INSURER) {
-        // contract call code here
-        handleContractTransfer()
-      }else{
-        // contract call code here
-        handleContractTransfer()
-      }
+      // if (address === INSURER) {
+      //   // contract call code here
+      //   handleContractTransfer()
+      // }else{
+      //   // contract call code here
+      //   handleContractTransfer()
+      // }
       props.onHide()
       // console.log(callApp)
     }

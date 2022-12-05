@@ -4,7 +4,6 @@ import { StyleSheet, css } from 'aphrodite'
 import { Buffer } from 'buffer';
 import axios from "axios"
 import emptyImage from "../../assets/img/empty.svg"
-import { useCelo } from '@celo/react-celo';
 import Telemed from "../../telemed.json"
 import TelemedJson from "../../TelemedAbi.json"
 
@@ -26,7 +25,7 @@ const styles = StyleSheet.create({
 })
 
 export default function TransactionHistoryTable({currentItems}) {
-  const { address, kit } = useCelo()
+  const { address, kit } = ""
   const [transactions, setTransactions] = useState([])  
 
   const messages = []
