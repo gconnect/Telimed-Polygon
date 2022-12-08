@@ -6,7 +6,8 @@ import axios from "axios"
 import emptyImage from "../../assets/img/empty.svg"
 import Telemed from "../../telemed.json"
 import TelemedJson from "../../TelemedAbi.json"
-
+import { telimedContract, getCurrentWalletConnected } from "../../interact"
+  
 const styles = StyleSheet.create({
   table: {
     '@media (max-width: 575px)': {
@@ -25,18 +26,25 @@ const styles = StyleSheet.create({
 })
 
 export default function TransactionHistoryTable({currentItems}) {
-  const { address, kit } = ""
+  // const [address, setAddress] = useState("")
   const [transactions, setTransactions] = useState([])  
 
   const messages = []
 
+    // useEffect(() => {
+    // const currentAddress = async () => {
+    //   const { address, status } = await getCurrentWalletConnected();
+    //   setAddress(address)
+    // }
+    // currentAddress()    
+    // }, []);
+  
   const getMessages = async () => {
     try {
-       const telemedContract = new kit.connection.web3.eth.Contract(TelemedJson.abi, Telemed.address)
-      const messageCount = await telemedContract.methods.getMessageLength().call()
-      // console.log('xxx ', messageCount)
+      const messageCount = await telimedContract.methods.getMessageLength().call()
       for (let i = 0; i <= messageCount.length; i++){
-        const messageIndex = await telemedContract.methods.getMessageIndex(i).call()
+        const messageIndex = await telimedContract.methods.getMessageIndex(i).call()
+        console.log(messageIndex)
         messages.push(messageIndex)
       }
       console.log(messages)
@@ -71,14 +79,11 @@ export default function TransactionHistoryTable({currentItems}) {
               
               {transactions.map((txn, index) =>
                 <tr key={index}  className={css(styles.table)}>
-                  {/* <td> <a href={`https://explorer.celo.org/alfajores/tx/${txn.id}/internal-transactions/`} target="_blank" rel="noreferrer">{txn.id === null ? null : `${txn.id.substring(0,40)}...`}</a></td>
-                  <td>{txn['confirmed-round']}</td> */}
-                  <td>{txn.blockHashNow}</td>
+                  <td> <a href={`https://mumbai.polygonscan.com/tx/${txn.blockHashNow}`} target="_blank" rel="noreferrer">{txn.blockHashNow === null ? null : `${txn.blockHashNow.substring(0,40)}...`}</a></td>
                   <td>{txn.blockNumber}</td>
                   <td>{txn.message}</td>
-                  <td>{txn.from}</td>
-                  <td>{txn.to}</td>
-                  {/* <td>{txn.to === null ? null : `${txn.to.substring(0,20)}...`}</td>                        */}
+                  <td>{txn.from === null ? null : `${txn.from.substring(0,40)}...`}</td>
+                  <td>{txn.to === null ? null : `${txn.to.substring(0,40)}...`}</td>
                   </tr>               
             )}
             </tbody>

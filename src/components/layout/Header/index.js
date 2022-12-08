@@ -4,12 +4,12 @@ import { HashLink } from 'react-router-hash-link'
 import logo from '../../../assets/img/logo.png'
 import Button from 'react-bootstrap/Button';
 import { Header, OpenMenu } from './Header.styles'
-// import { connectWallet, getCurrentWalletConnected } from '../../../interact';
+import { connectWallet, getCurrentWalletConnected, disconnectWallet } from '../../../interact';
 
 const AppHeader = ({ appLinks }) => {
    const [address, setWallet] = useState("");
-  const [status, setStatus] = useState("");
-
+   const [status, setStatus] = useState("");
+    const isConnected = !!address
   const location = useLocation()
   const navigate = useNavigate()
   
@@ -38,13 +38,13 @@ const AppHeader = ({ appLinks }) => {
     sidebar.style.width = '0'
   }
 
-  //   useEffect(async () => {
-  //   const { address, status } = await getCurrentWalletConnected();
-  // }, []);
-
-  const connectWallet = () => {
-    
-  }
+  useEffect(() => {
+    const currentAddress = async () => {
+      const { address, status } = await getCurrentWalletConnected();
+      setWallet(address)
+    }
+    currentAddress()    
+  }, []);
 
   return (
     <Header className="app-mx">
@@ -61,11 +61,11 @@ const AppHeader = ({ appLinks }) => {
         </Button>}
 
         {address ? (
-        <Button>Connected to {`${address.substring(0, 5)}...${address.slice(-5)}`}</Button>
+        <Button> Connected to {`${address.substring(0, 5)}...${address.slice(-5)}`}</Button>
         ) : (
               location.pathname === '/app' && <Button onClick={connectWallet}>Connect wallet</Button> 
         )}
-        {/* {isConnected ? <Button variant='warning' onClick={disconnect}>Disconnect</Button> : null} */}
+        {/* {isConnected ? <Button variant='warning' onClick={disconnectWallet}>Disconnect</Button> : null} */}
       </ul>
       <OpenMenu id="open-menu" onClick={openMenu}>
         <div className="bar1"></div>

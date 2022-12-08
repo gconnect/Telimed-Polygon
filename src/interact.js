@@ -1,23 +1,14 @@
-
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
-import Telemed from "../src/telemed.json"
-import contractABI from "../src/TelemedAbi.json"
-require("dotenv").config();
-
+import Telemed from "./telemed.json"
+import contractABI from "./TelemedAbi.json"
 const alchemyKey = process.env.REACT_APP_ALCHEMY_KEY;
 const web3 = createAlchemyWeb3(alchemyKey);
-
 const contractAddress = Telemed.address;
 
-export const telimedContract = new web3.eth.Contract(
-  contractABI,
+ export const telimedContract = new web3.eth.Contract(
+  contractABI.abi,
   contractAddress
 );
-
-export const loadCurrentMessage = async () => {
-  const message = await telimedContract.methods.message().call();
-  return message;
-};
 
 export const connectWallet = async () => {
   if (window.ethereum) {
@@ -55,6 +46,17 @@ export const connectWallet = async () => {
   }
 };
 
+export const disconnectWallet = async () => {
+  const {ethereum} = window;
+  const accounts = await ethereum.request({method: 'eth_accounts'});
+  if (accounts && accounts.length > 0) {
+    console.log("user is connected");
+    return { address : "connect wallet"}
+  } else {
+    console.log("user not connected");
+    return { address : accounts[0]}
+  }
+}
 export const getCurrentWalletConnected = async () => {
   if (window.ethereum) {
     try {
@@ -128,7 +130,7 @@ export const updateMessage = async (address, message) => {
       status: (
         <span>
           ✅{" "}
-          <a target="_blank" href={`https://ropsten.etherscan.io/tx/${txHash}`}>
+          <a target="_blank" href={`https://mumbai.polygonscan.com/tx/${txHash}`}>
             View the status of your transaction on Etherscan!
           </a>
           <br />

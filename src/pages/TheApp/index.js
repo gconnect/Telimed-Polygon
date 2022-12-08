@@ -52,14 +52,17 @@ const TheApp = () => {
 
   // var time = new Date().getTime(); // get your number
   var date = new Date(1661025737);
-  console.log(  date.toDateString())
+  console.log(date.toDateString())
 
   return (
     <Container>
         <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
       <div className="min-height">
 
-        <div>
+          <div>
+            
+              <Button className={css(styles.btn)} variant="warning" onClick={() => setShowModal(true)}> Patient
+           </Button>
           {    
              address === doctor ?
             <Button className={css(styles.btn)} variant="info" onClick={() => setShowModal(true)}>

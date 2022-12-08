@@ -1,8 +1,9 @@
-import React, {useRef, useState} from "react"
+import React, {useRef, useState, useEffect} from "react"
 import { Modal, Form, Button, Alert } from "react-bootstrap"
 import { StyleSheet, css } from 'aphrodite'
 import { DOCTOR, PHARMACIST, INSURER } from "../../constants"
 import Telemed from "../../telemed.json"
+import { connectWallet, getCurrentWalletConnected, disconnectWallet, telimedContract } from '../../interact';
 
 
 export default function FormModal(props){
@@ -13,8 +14,7 @@ export default function FormModal(props){
   const [errorMessage, setErrorMessage] = useState("")
   const [errorAddress, setErrorAddress] = useState("")
   const [amount, setAmount] = useState(0)
-
-  const { address, kit } = "";
+  const [address, setAddress] = useState("")
 
 const styles = StyleSheet.create({
   error: {
@@ -38,17 +38,14 @@ const handleAmountChange = e =>{
 }
   
   const handleContractTransfer = async () => {
-    // const telemedContract = new kit.connection.web3.eth.Contract(Telemed.abi, Telemed.address)
-    // const txHash = await telemedContract.methods.sendMessage(walletAddress, message).send({
-    //   from: address,
-    //   gasLimit: '210000'
-    // })
-    // console.log(txHash)
+    const txHash = await telimedContract.methods.sendMessage(walletAddress, message).send({
+      from: address,
+      gasLimit: '210000'
+    })
+    console.log(txHash)
   }
 
   const handleTransfer = async () => {
-  //  const appOptin = await optin(getAddress)
-  //    console.log(appOptin)
     if(message === "") {
       setErrorMessage("Fields cannot be empty")
       return
@@ -62,17 +59,26 @@ const handleAmountChange = e =>{
     else if(message !=="" || walletAddress.length === 32){
       setErrorMessage("")
       setErrorAddress("")
-      // if (address === INSURER) {
-      //   // contract call code here
-      //   handleContractTransfer()
-      // }else{
-      //   // contract call code here
-      //   handleContractTransfer()
-      // }
+      if (address === INSURER) {
+        // contract call code here
+        handleContractTransfer()
+      }else{
+        // contract call code here
+        handleContractTransfer()
+      }
       props.onHide()
       // console.log(callApp)
     }
   }
+
+
+  useEffect(() => {
+    const currentAddress = async () => {
+      const { address, status } = await getCurrentWalletConnected();
+      setAddress(address)
+    }
+    currentAddress()    
+  }, []);
 
   return (
     <>
